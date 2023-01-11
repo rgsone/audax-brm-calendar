@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 class Api
 {
 	private Request $req;
-	private DB $db;
-
 	private ?int $month = null;
 	private ?int $distance = null;
 	private ?int $country = null;
@@ -26,15 +24,15 @@ class Api
 
 	private function boot(): void
 	{
-		$this->db = new DB();
-		$this->db->addConnection([
+		$db = new DB();
+		$db->addConnection([
 			'driver'    => 'sqlite',
 			'database'  => dirname(__DIR__) . '/database/data.db',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => ''
 		]);
-		$this->db->setAsGlobal();
+		$db->setAsGlobal();
 	}
 
 	private function prepareDbRequest(): Builder
@@ -92,8 +90,9 @@ class Api
 		$req = $req->orderBy('datetime')->orderBy('distance');
 
 		$res = $req->paginate(
-				perPage: 40,
+				perPage: 20,
 				columns: [
+					'id',
 					'date',
 					'distance',
 					'contact',
@@ -109,6 +108,19 @@ class Api
 				],
 				page: $page
 			);
+
+		$res->getCollection()->map(function ($item, $key) {
+
+			$item->date = Carbon::createFromFormat('Y-m-d', $item->date)->format('d/m/Y');
+			$item->contact = htmlspecialchars($item->contact);
+			$item->contact_mail = htmlspecialchars($item->contact_mail);
+			$item->web_site = htmlspecialchars($item->web_site);
+			$item->city = htmlspecialchars($item->city);
+			$item->roadmap = htmlspecialchars($item->roadmap);
+			$item->club_name = htmlspecialchars($item->club_name);
+
+			return $item;
+		});
 
 		$data = [
 			'pagination' => [
