@@ -137,15 +137,15 @@
 				<div class="flex justify-between items-center p-4 mb-10 w-full">
 
 					<div>
-						<button class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500">&lt;&lt;</button>
-						<button class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500">&lt;</button>
+						<button @click="firstPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;&lt;</button>
+						<button @click="prevPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;</button>
 					</div>
 
 					<div x-text="paginationInfoText" class="font-bold"></div>
 
 					<div>
-						<button class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500">&gt;</button>
-						<button class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500">&gt;&gt;</button>
+						<button @click="nextPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;</button>
+						<button @click="lastPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;&gt;</button>
 					</div>
 
 				</div>
