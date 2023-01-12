@@ -20,7 +20,8 @@
 
 	<body class="bg-slate-100 flex flex-col">
 
-		<h1 class="text-2xl font-bold p-3 mt-4 max-w-5xl mx-auto w-full">BRM 2023</h1>
+		<h1 class="text-3xl font-bold px-3 pt-3 pb-0 mt-4 max-w-5xl mx-auto w-full">BRM 2023</h1>
+		<p class="text-sm italic px-3.5 pb-4">maj le <?= $lastUpdate ?></p>
 
 		<!-- form filter -->
 		<form x-data="filterFormHandler" @submit.prevent="submit" class="flex flex-col md:flex-row max-w-5xl mx-auto w-full p-3">
@@ -129,6 +130,10 @@
 								</template>
 							</div>
 							<p x-text="formatContact(brm)"></p>
+							<p>club -> Davis Bike Club</p>
+							<p>USA / CA / Departement / Davis</p>
+							<p>site : https://www.davisbikeclub.org/ultra-distance-brevets-and-randonneuring</p>
+							<p>trace :</p>
 						</li>
 					</template>
 				</ul>
