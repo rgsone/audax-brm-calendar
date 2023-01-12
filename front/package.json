@@ -17,6 +17,9 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "alpinejs": "^3.10.5"
+    "alpinejs": "^3.10.5",
+    "linkify-html": "^4.1.0",
+    "linkify-string": "^4.1.0",
+    "linkifyjs": "^4.1.0"
   }
 }
