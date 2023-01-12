@@ -18,13 +18,13 @@
 		<?php endif; ?>
 	</head>
 
-	<body class="bg-slate-100 flex flex-col">
+	<body class="bg-slate-100 flex flex-col font-sans">
 
-		<h1 class="text-3xl font-bold px-3 pt-3 pb-0 mt-4 max-w-5xl mx-auto w-full">BRM 2023</h1>
-		<p class="text-sm italic px-3.5 pb-4">maj le <?= $lastUpdate ?></p>
+		<h1 class="text-3xl text-[#0A0061] font-bold px-3 pt-3 pb-0 mt-4 max-w-3xl mx-auto w-full">BRM 2023</h1>
+		<p class="text-sm text-[#0A0061] italic px-3.5 pb-4 max-w-3xl mx-auto w-full">maj le <?= $lastUpdate ?></p>
 
 		<!-- form filter -->
-		<form x-data="filterFormHandler" @submit.prevent="submit" class="flex flex-col md:flex-row max-w-5xl mx-auto w-full p-3">
+		<form x-data="filterFormHandler" @submit.prevent="submit" class="flex flex-col md:flex-row max-w-3xl mx-auto w-full p-3">
 
 			<div class="flex flex-col sm:flex-row sm:mb-3 md:mb-0">
 
@@ -62,7 +62,7 @@
 		</form>
 
 		<!-- results list container -->
-		<div class="relative mx-auto max-w-5xl w-full">
+		<div class="relative mx-auto max-w-3xl w-full">
 
 			<!-- error container -->
 			<div x-data
@@ -105,15 +105,15 @@
 				<div class="flex justify-between items-center p-3 w-full">
 
 					<div>
-						<button @click="firstPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;&lt;</button>
-						<button @click="prevPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;</button>
+						<button @click.prevent="firstPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;&lt;</button>
+						<button @click.prevent="prevPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;</button>
 					</div>
 
-					<div x-text="paginationInfoText" class="font-bold"></div>
+					<div x-text="paginationInfoText" class="text-[#0A0061] font-bold"></div>
 
 					<div>
-						<button @click="nextPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;</button>
-						<button @click="lastPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;&gt;</button>
+						<button @click.prevent="nextPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;</button>
+						<button @click.prevent="lastPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;&gt;</button>
 					</div>
 
 				</div>
@@ -121,36 +121,65 @@
 				<!-- results -->
 				<ul class="p-3 w-full">
 					<template x-for="brm in $store.brmData.brmData" :key="brm.id">
-						<li class="bg-white shadow mb-4 px-4 py-5 last:mb-0">
-							<div class="flex">
-								<div x-text="brm.date" class="bg-slate-500 text-white rounded px-2 py-1 text-sm mr-1"></div>
-								<div x-text="formatDistance(brm.distance)" :class="distanceClass(brm.distance)" class="text-white rounded px-2 py-1 text-sm mr-1"></div>
-								<template x-if="brm.elevation > 0">
-									<div x-text="formatElevation(brm.elevation)" class="px-2 py-1 text-sm"></div>
-								</template>
+						<li class="flex flex-col md:flex-row prose prose-stone prose-sm max-w-none bg-white shadow-md mb-4 last:mb-0 rounded-xl">
+
+							<div class="flex md:flex-col md:items-center md:justify-center px-3 py-6 md:py-8 md:px-10 rounded-t-xl md:rounded-l-xl md:rounded-tr-none bg-[#E6FCFF] text-[#0A0061]">
+
+								<div class="flex flex-col md:items-center md:order-1 ml-2 md:ml-0 relative">
+									<!-- distance -->
+									<div x-text="formatDistance(brm.distance)" class="relative md:-rotate-180 md:[writing-mode:vertical-lr] md:my-4 text-7xl md:text-7xl leading-none font-bold"></div>
+									<!-- elevation -->
+									<template x-if="brm.elevation > 0">
+										<div x-text="formatElevation(brm.elevation)"
+												 class="text-sm font-bold leading-[0.5] md:leading-none pl-0.5 md:pl-0"></div>
+									</template>
+
+								</div>
+								<!-- date -->
+								<div x-text="brm.date" class="ml-auto mr-2 md:mr-0 md:ml-0 text-2xl md:text-xl font-bold"></div>
+
 							</div>
-							<p x-text="formatContact(brm)"></p>
-							<p>club -> Davis Bike Club</p>
-							<p>USA / CA / Departement / Davis</p>
-							<p>site : https://www.davisbikeclub.org/ultra-distance-brevets-and-randonneuring</p>
-							<p>trace :</p>
+
+							<div class="flex flex-col items-start px-3 py-5 md:pl-8 md:py-7 text-[#0A0061]">
+
+								<template x-if="brm.club_name !== ''">
+									<p x-text="brm.club_name" class="bg-[#E6FCFF] rounded text-sm font-bold px-2 py-1 m-0"></p>
+								</template>
+
+								<p x-text="brm.contact" class="text-xl leading-none font-bold mt-4 md:mt-2 mb-0 ml-1"></p>
+								<p x-text="brm.contact_mail" class="text-sm italic my-0 ml-1"></p>
+								<template x-if="brm.web_site !== ''">
+									<p x-html="formatWebsite(brm.web_site)" class="text-sm italic my-0 ml-1"></p>
+								</template>
+
+								<template x-if="brm.roadmap !== ''">
+									<div class="ml-1 mt-6">
+										<p class="font-bold text-xs uppercase leading-[0.5] m-0">Trace</p>
+										<p x-html="formatRoadmap(brm.roadmap)" class="text-sm m-0"></p>
+									</div>
+								</template>
+
+								<p x-text="formatLocation(brm)" class="ml-1 mt-6 mb-0 text-sm"></p>
+
+							</div>
+
 						</li>
 					</template>
 				</ul>
 
 				<!-- bottom pagination -->
-				<div class="flex justify-between items-center p-4 mb-10 w-full">
+				<div class="flex justify-between items-center p-3 w-full">
 
 					<div>
-						<button @click="firstPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;&lt;</button>
-						<button @click="prevPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;</button>
+						<button @click.prevent="firstPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;&lt;</button>
+						<button @click.prevent="prevPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&lt;</button>
 					</div>
 
-					<div x-text="paginationInfoText" class="font-bold"></div>
+					<div x-text="paginationInfoText" class="text-[#0A0061] font-bold"></div>
 
 					<div>
-						<button @click="nextPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;</button>
-						<button @click="lastPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;&gt;</button>
+						<button @click.prevent="nextPage" class="border-2 font-bold px-4 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;</button>
+						<button @click.prevent="lastPage" class="border-2 font-bold px-3 py-2 rounded-md border-indigo-300 text-indigo-500 hover:bg-indigo-300 hover:text-indigo-900">&gt;&gt;</button>
 					</div>
 
 				</div>

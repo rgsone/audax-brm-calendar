@@ -111,12 +111,12 @@ class Api
 
 		$res->getCollection()->map(function ($item, $key) {
 
-			$item->date = Carbon::createFromFormat('Y-m-d', $item->date)->format('d/m/Y');
-			$item->contact = htmlspecialchars($item->contact);
-			$item->contact_mail = htmlspecialchars($item->contact_mail);
+			$item->date = Carbon::createFromFormat('Y-m-d', $item->date)->format('d/m');
+			//$item->contact = htmlspecialchars($item->contact);
+			//$item->contact_mail = htmlspecialchars($item->contact_mail);
 			$item->web_site = htmlspecialchars($item->web_site);
-			$item->city = htmlspecialchars($item->city);
-			$item->roadmap = htmlspecialchars($item->roadmap);
+			//$item->city = htmlspecialchars($item->city);
+			//$item->roadmap = htmlspecialchars($item->roadmap);
 			$item->club_name = htmlspecialchars($item->club_name);
 
 			return $item;

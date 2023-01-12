@@ -1,5 +1,6 @@
 import './style.css'
 import Alpine from 'alpinejs';
+import linkifyStr from 'linkify-string';
 
 window.Alpine = Alpine;
 
@@ -142,50 +143,50 @@ document.addEventListener('alpine:init', () => {
 			store.submitForm();
 		},
 
-		getTextContent(data) {
-			const elevation = data.elevation > 0 ? `/ ${data.elevation} D+` : '';
-			return `Debra BANKS (rba@davisbikeclub.org)
-							<br>
-							club -> Davis Bike Club
-							<br>
-							USA / CA / Departement / Davis
-							<br>
-							site : https://www.davisbikeclub.org/ultra-distance-brevets-and-randonneuring
-							<br>
-							trace :`;
+		formatDistance(data) { return `${data}`; },
+
+		formatElevation(data) { return `${data} D+`; },
+
+		formatWebsite(data) {
+			console.log(data);
+			return linkifyStr(data, {
+				attributes: {
+					title: 'lien externe',
+				},
+				//className: 'new-link--url',
+				truncate: 40,
+				nl2br: true,
+			});
 		},
 
-		formatDistance(data) { return `${data} km`; },
-
-		distanceClass(data) {
-			switch (data) {
-				case 200:
-					return 'bg-amber-400';
-				case 300:
-					return 'bg-amber-500';
-				case 400:
-					return 'bg-amber-600';
-				case 600:
-					return 'bg-amber-700';
-				case 1000:
-					return 'bg-amber-800';
-				default:
-					return 'bg-amber-400';
-			}
+		formatRoadmap(data) {
+			console.log(data);
+			return linkifyStr(data, {
+				attributes: {
+					title: 'lien externe',
+				},
+				//className: 'new-link--url',
+				truncate: 40,
+				nl2br: true,
+			});
 		},
 
-		formatElevation(data) { return `${data} d+`; },
-
-		formatContact(data) { return `${data.contact} (${data.contact_mail})`; },
+		formatLocation(data) {
+			let location = data.country;
+			location += data.region !== '' ? ` — ${data.region}` : '';
+			location += data.county !== '' ? ` — ${data.county}` : '';
+			location += data.city !== '' ? ` — ${data.city}` : '';
+			return location;
+		},
 
 		get paginationInfoText() {
 			const store = Alpine.store('brmData');
 
 			if (store.paginationData == null) return '';
-			if (store.brmData.length === 0) return '0 - 0 / 0';
+			if (store.brmData.length === 0) return '0 — 0 / 0';
 
 			return store.paginationData.items.pageFirstItemIndex +
-				' - ' + store.paginationData.items.pageLastItemIndex +
+				' — ' + store.paginationData.items.pageLastItemIndex +
 				' / ' + store.paginationData.items.totalItems;
 		}
 
